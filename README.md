@@ -37,3 +37,9 @@ Predict stats for the day after [1, 1, 1, 1, 1, 1]
    Happiness  Motivation  Flexibility  Strength  Endurance  Relationships
 0   4.073277    4.718392     2.304909  3.197984   3.005468       3.526293
 ```
+
+
+### `playing_around5.py`
+
+Wooooooo! Got a 2x improvement by using rolling window technique with 'blackman' algorithm. Super, super cool! No 
+predictions were > 15 (in total between each metric) off.
