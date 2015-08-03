@@ -25,9 +25,9 @@ seeing results, which is the kind of tool I love using.
 Example output:
 ```
 
-===========================================================================
-Given the previous day's result, what can we predict tomorrows stats to be?
-===========================================================================
+==========================================================================
+Given the previous day's stats, what can we predict tomorrows stats to be?
+==========================================================================
 
 Predict stats for the day after [10, 10, 10, 10, 10, 10]
    Happiness  Motivation  Flexibility  Strength  Endurance  Relationships
