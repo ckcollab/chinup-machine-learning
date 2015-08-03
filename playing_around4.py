@@ -7,8 +7,9 @@ import pandas as pd
 import numpy
 
 
+data_labels = ["Happiness", "Motivation", "Flexibility", "Strength", "Endurance", "Relationships"]
 data_frame = pd.read_csv("personal_stats2.csv")
-data_frame = data_frame[["Happiness", "Motivation", "Flexibility", "Strength", "Endurance", "Relationships"]]
+data_frame = data_frame[data_labels]
 
 # Get 80% of our dataset
 index_at_80_percent = int(len(data_frame) * .8)
@@ -32,37 +33,49 @@ clf = linear_model.LinearRegression(copy_X=True, normalize=False, fit_intercept=
 #clf = linear_model.ElasticNet(alpha=.5, l1_ratio=0.5, tol=0.01)       # 955
 #clf = linear_model.PassiveAggressiveRegressor()
 
-# Implement the method and print the results
+# Implement the method and print the results, very simple, only takes into account previous days record
 clf = clf.fit(training_input, training_target)
 
-print "Predict: [10, 10, 10, 10, 10, 10]"
-print clf.predict([[10, 10, 10, 10, 10, 10]])
-
-print "Predict: [1, 1, 1, 1, 1, 1]"
-print clf.predict([[1, 1, 1, 1, 1, 1]])
-
-total_difference_less_than_5 = 0
-total_difference_greater_than_15 = 0
-total_difference = 0
-
-for index, row in enumerate(test_input.values):
-    test_result = numpy.array([int(n) for n in clf.predict(row)[0]])
-    difference = sum(abs(x - y) for x, y in zip(test_result, test_target.values[index]))
-    total_difference += difference
-
-    print test_target.values[index]
-    print test_result
-    print "Difference:", difference
-    print ""
-
-    #print total_difference, difference
-
-    if difference < 5:
-        total_difference_less_than_5 += 1
-    if difference > 15:
-        total_difference_greater_than_15 += 1
-
 print ""
-print "Total differences < 5 -->", total_difference_less_than_5
-print "Total differences > 15 -->", total_difference_greater_than_15
-print "Total differences ==", total_difference
+print "==========================================================================="
+print "Given the previous day's result, what can we predict tomorrows stats to be?"
+print "==========================================================================="
+print "\nPredict stats for the day after [10, 10, 10, 10, 10, 10]"
+prediction = clf.predict([[10, 10, 10, 10, 10, 10]])
+print pd.DataFrame(prediction, columns=data_labels)
+
+print "\nPredict stats for the day after [1, 1, 1, 1, 1, 1]"
+prediction = clf.predict([[1, 1, 1, 1, 1, 1]])
+print pd.DataFrame(prediction, columns=data_labels)
+
+
+#=============================================================================
+# Compare predictions to actual stats
+#
+# Uncomment to view!
+#=============================================================================
+# total_difference_less_than_5 = 0
+# total_difference_greater_than_15 = 0
+# total_difference = 0
+#
+# for index, row in enumerate(test_input.values):
+#     test_result = numpy.array([int(n) for n in clf.predict(row)[0]])
+#     difference = sum(abs(x - y) for x, y in zip(test_result, test_target.values[index]))
+#     total_difference += difference
+#
+#     print test_target.values[index]
+#     print test_result
+#     print "Difference:", difference
+#     print ""
+#
+#     #print total_difference, difference
+#
+#     if difference < 5:
+#         total_difference_less_than_5 += 1
+#     if difference > 15:
+#         total_difference_greater_than_15 += 1
+#
+# print ""
+# print "Total differences < 5 -->", total_difference_less_than_5
+# print "Total differences > 15 -->", total_difference_greater_than_15
+# print "Total differences ==", total_difference
