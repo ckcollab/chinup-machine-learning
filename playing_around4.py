@@ -37,9 +37,9 @@ clf = linear_model.LinearRegression(copy_X=True, normalize=False, fit_intercept=
 clf = clf.fit(training_input, training_target)
 
 print ""
-print "==========================================================================="
-print "Given the previous day's result, what can we predict tomorrows stats to be?"
-print "==========================================================================="
+print "=========================================================================="
+print "Given the previous day's stats, what can we predict tomorrows stats to be?"
+print "=========================================================================="
 print "\nPredict stats for the day after [10, 10, 10, 10, 10, 10]"
 prediction = clf.predict([[10, 10, 10, 10, 10, 10]])
 print pd.DataFrame(prediction, columns=data_labels)
