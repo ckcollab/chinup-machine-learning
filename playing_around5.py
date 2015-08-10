@@ -14,8 +14,9 @@ data_frame = pd.read_csv("personal_stats2.csv")
 data_frame = data_frame[data_labels + ["Datetime"]]
 
 # Apply rolling window to data
+rolling_window_size = 16
 series = data_frame.set_index('Datetime')
-series = pd.rolling_window(series, 7, 'blackman')
+series = pd.rolling_window(series, rolling_window_size, 'boxcar')
 
 data_frame = pd.DataFrame(series, columns=data_labels)
 
@@ -24,13 +25,21 @@ index_at_80_percent = int(len(data_frame) * .8)
 
 # Get the first 80% as input and the following day as the target result
 # Skip first 6 as rolling window didn't apply to them
-training_input = data_frame[7:index_at_80_percent]
-training_target = data_frame[7 + 1:index_at_80_percent + 1]
+training_input = data_frame[rolling_window_size:index_at_80_percent]
+training_target = data_frame[rolling_window_size + 1:index_at_80_percent + 1]
 
 #=============================================================================
 # Uncomment to select a method
 #=============================================================================
 # Score: 437 with 'blackman' rolling window
+# Score: 338 with 'boxcar' rolling window
+# Score: 385 with 'hamming' rolling window
+# Score: 391 with 'bartlett' rolling window
+# Score: 426 with 'parzen' rolling window
+# Score: 444 with 'bohman' rolling window
+# Score: 476 with 'blackmanharris' rolling window
+# Score: 475 with 'nuttall' rolling window
+# Score: 406 with 'barthann' rolling window
 clf = linear_model.LinearRegression(copy_X=True, normalize=False, fit_intercept=True)
 
 #clf = linear_model.RANSACRegressor(linear_model.LinearRegression())
@@ -39,7 +48,7 @@ clf = linear_model.LinearRegression(copy_X=True, normalize=False, fit_intercept=
 
 #clf = neighbors.KNeighborsRegressor()
 
-#clf = linear_model.LassoLars(alpha=.01)
+#clf = linear_model.LassoLars(alpha=.1)
 
 #clf = linear_model.OrthogonalMatchingPursuit()
 
